@@ -8,6 +8,7 @@ import PlatformSelector from "./components/PlatformSelector";
 import { Platform } from "./hooks/useGames";
 import SortSelector from "./components/SortSelector";
 import GameHeading from "./components/GameHeading";
+import ResetFilter from "./components/ResetFilter";
 
 export interface GameQuery {
   genre: Genre | null;
@@ -46,19 +47,27 @@ function App() {
       <GridItem area="main">
         <Box marginLeft={10}>
           <GameHeading gameQuery={gameQuery} />
-          <Flex marginTop={3}>
-            <Box marginRight={3}>
-              <PlatformSelector
-                selectedPlatform={gameQuery.platform}
-                onSelectedPlatform={(platform) =>
-                  setGameQuery({ ...gameQuery, platform })
-                }
-              />
-            </Box>
+          <Flex marginTop={3} gap={3}>
+            <PlatformSelector
+              selectedPlatform={gameQuery.platform}
+              onSelectedPlatform={(platform) =>
+                setGameQuery({ ...gameQuery, platform })
+              }
+            />
             <SortSelector
               selectedSorOrder={gameQuery.sortOrder}
               onSelectSortOrder={(sortOrder) =>
                 setGameQuery({ ...gameQuery, sortOrder })
+              }
+            />
+            <ResetFilter
+              onReset={() =>
+                setGameQuery({
+                  genre: null,
+                  platform: null,
+                  sortOrder: "",
+                  searchText: "",
+                })
               }
             />
           </Flex>
