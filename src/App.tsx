@@ -19,6 +19,14 @@ export interface GameQuery {
 
 function App() {
   const [gameQuery, setGameQuery] = useState<GameQuery>({} as GameQuery);
+  const [clearInputValue, setClearInputValue] = useState(false);
+
+  const handleClearInput = () => {
+    setClearInputValue(false);
+    setTimeout(() => {
+      setClearInputValue(true);
+    }, 0);
+  };
 
   return (
     <Grid
@@ -34,6 +42,8 @@ function App() {
       <GridItem area="nav" marginY={5} paddingX={3}>
         <NavBar
           onSearch={(searchText) => setGameQuery({ ...gameQuery, searchText })}
+          onClear={() => setGameQuery({ ...gameQuery, searchText: "" })}
+          clearInputValue={clearInputValue}
         />
       </GridItem>
       <Show above="lg">
@@ -61,14 +71,15 @@ function App() {
               }
             />
             <ResetFilter
-              onReset={() =>
+              onReset={() => {
                 setGameQuery({
                   genre: null,
                   platform: null,
                   sortOrder: "",
                   searchText: "",
-                })
-              }
+                }),
+                  handleClearInput();
+              }}
             />
           </Flex>
         </Box>
